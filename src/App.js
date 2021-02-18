@@ -1,4 +1,6 @@
+import React from "react";
 import "./App.css";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   Menu,
   Tabs,
@@ -9,15 +11,46 @@ import {
   PageHeader,
   List,
   Divider,
+  Input,
+  Dropdown,
 } from "antd";
 
-import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
-//const data =
+import "antd/dist/antd.css";
 const data = new Array(40).fill("shu");
 
 function App() {
+  const [input, setinput] = React.useState("Untitled-Task-1");
+  const [flag, setflag] = React.useState(false);
+  const [parameter, setparameter] = React.useState([5, 2]);
+  const [inputDisabled, setinputdiabled] = React.useState(true);
+
   const { TabPane } = Tabs;
   const { SubMenu } = Menu;
+  const g = "idsijdiijds";
+  React.useEffect(() => {
+    setinput(g);
+  }, []);
+
+  const cd = () => {
+    console.log("click");
+    setinputdiabled(true);
+  };
+  React.useEffect(() => {
+    document.addEventListener("click", cd);
+    return () => {
+      document.removeEventListener("click", cd);
+    };
+  });
+
+  const menu = (
+    <List
+      size="small"
+      bordered
+      dataSource={data}
+      renderItem={(item) => <List.Item>{item}</List.Item>}
+    />
+  );
+
   const routes = [
     {
       path: "index",
@@ -100,34 +133,28 @@ function App() {
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <Tabs defaultActiveKey="1">
             <TabPane tab="Tab 1" key="1">
-              <div className="site-card-wrapper">
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <Card title="Card title" bordered={false}>
-                      <p>Card Content</p>
-                      <p>Card Content</p>
-
-                      <p>Card Content</p>
-                    </Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card title="Card title" bordered={false}>
-                      <p>Card Content</p>
-                      <p>Card Content</p>
-                      <p>Card Content</p>{" "}
-                    </Card>
-                  </Col>
-                  <Col span={8}>
-                    <Card title="Card title" bordered={false}>
-                      <p>Card Content</p>
-                      <p>Card Content</p>
-
-                      <p>Card Content</p>
-                    </Card>
-                  </Col>
-                </Row>
-              </div>
-              ,
+              <Row>
+                <Col span={parameter[0]}>
+                  <Input
+                    onChange={(event) => setinput(event.target.value)}
+                    value={input}
+                    placeholder="Basic usage"
+                    style={{ cursor: "pointer", display: "inline" }}
+                    onPressEnter={() => setinput(input)}
+                    onClick={() => {
+                      console.log(6);
+                      setinputdiabled(false);
+                      parameter[0] % 2 === 1
+                        ? setparameter([parameter[0] + 3, parameter[1]])
+                        : setparameter([5, 2]);
+                    }}
+                  />{" "}
+                </Col>
+                <Col span={parameter[1]}>
+                  <PlusOutlined />
+                </Col>
+              </Row>
+              <Row>{flag && <Col span={18}>{menu}</Col>}</Row>
             </TabPane>
             <TabPane tab="Tab 2" key="2">
               Content of Tab Pane 2
