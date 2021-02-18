@@ -31,17 +31,6 @@ function App() {
     setinput(g);
   }, []);
 
-  const cd = () => {
-    console.log("click");
-    setinputdiabled(true);
-  };
-  React.useEffect(() => {
-    document.addEventListener("click", cd);
-    return () => {
-      document.removeEventListener("click", cd);
-    };
-  });
-
   const menu = (
     <List
       size="small"
